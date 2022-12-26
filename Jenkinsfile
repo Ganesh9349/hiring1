@@ -2,6 +2,7 @@ pipeline {
     agent any
 
     stages {
+        
         stage('Maven Build') {
             steps {
                 sh "mvn clean package"
@@ -11,26 +12,47 @@ pipeline {
         stage('docker build') {
           
             steps {
-                sh "docker build -t bangodi/hiring:0.0.3 ."
+                sh "docker build -t bangodi/hiring:0.0.2 ."
             }
         }
         stage('docker push') {
            
             steps {
-             
-                      sh "docker login -u bangodi -p 
-                      sh "docker push bangodi/hiring:0.0.3"
-                 
+                pipeline {
+    agent any
+
+    stages {
+        
+        stage('Maven Build') {
+            steps {
+                sh "mvn clean package"
             }
         }
-          stage('docker deploy') {
+        
+        stage('docker build') {
+          
+            steps {
+                sh "docker build -t bangodi/hiring:0.0.2 ."
+            }
+        }
+        stage('docker push') {
            
             steps {
-                  sshagent(['docker-host']) {
-                     
-                }
-                
-              }
-          }
-     }
+                withCredentials([string(credentialsId: 'docker-hub', variable: 'hubpwd')]) {
+                      sh "docker login -u bangodi -p ${hubpwd}"
+                      sh "docker push bangodi/hiring:0.0.2"
+                 }
+            }
+        }
+        
+     }
+}
+
+                      sh "docker login -u bangodi -p ${hubpwd}"
+                      sh "docker push bangodi/hiring:0.0.2"
+                 }
+            }
+        }
+         
+     }
 }
