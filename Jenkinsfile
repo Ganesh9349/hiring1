@@ -24,7 +24,7 @@ pipeline {
                  }
             }
         }
-          stage('docker push') {
+          stage('docker deploy') {
            
             steps {
                   sshagent(['docker-host']) {
