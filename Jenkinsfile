@@ -9,28 +9,26 @@ pipeline {
             }
         }
         
-        stage('docker build') {
-          
+        stage('Docker Build') {
             steps {
                 sh "docker build -t bangodi/hiring:0.0.2 ."
             }
         }
-        stage('docker push') {
-           
+        stage('Docker Push') {
             steps {
-                withCredentials([string(credentialsId: 'Docker-hub', variable: 'hubpwd')]) {
-                      sh "docker login -u bangodi -p ${hubpwd}"
-                      sh "docker push bangodi/hiring:0.0.2"
-                 }
-            }
-        }
-          stage('docker deploy') {
-           
-            steps {
-                  sshagent(['Docker-host']) {
-                      sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.28.205 docker run -d -p 8080:8080 --name hiring bangodi/hiring:0.0.2"
+                withCredentials([string(credentialsId: 'docker-hub', variable: 'hubPwd')]) {
+                    sh "docker login -u bangodi -p ${hubPwd}"
+                    sh "docker push bangodi/hiring:0.0.2"
                 }
             }
-          }
-     }
+        }
+        stage('Docker Deploy') {
+            steps {
+                sshagent(['docker-host']) {
+                    sh "ssh -o StrictHostKeyChecking=no  ec2-user@172.31.85.209 docker run -d -p 8080:8080 --name hiring bangodi/hiring:0.0.2"
+                }
+            }
+        }
+
+    }
 }
