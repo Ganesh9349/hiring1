@@ -21,7 +21,7 @@ pipeline{
                }
             }
         }
-        stage('docker push'){
+        stage('docker deploy'){
             steps{
                 sshagent(['docker-demo']) {
                     sh "ssh ec2-user@172.31.85.209 docker run -d -p 8080:8080 --name hiring bangodi/hiring:0.0.2"
