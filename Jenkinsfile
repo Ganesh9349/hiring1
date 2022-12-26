@@ -17,17 +17,17 @@ pipeline {
         stage('docker push') {
            
             steps {
-                withCredentials([string(credentialsId: 'docker-hub', variable: 'hubpwd')]) {
-                      sh "docker login -u bangodi -p ${hubpwd}"
+             
+                      sh "docker login -u bangodi -p 
                       sh "docker push bangodi/hiring:0.0.3"
-                 }
+                 
             }
         }
           stage('docker deploy') {
            
             steps {
                   sshagent(['docker-host']) {
-                      sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.28.205 docker run -d -p 8080:8080 --name hiring bangodi/hiring:0.0.3"
+                     
                 }
                 
               }
