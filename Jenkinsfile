@@ -20,7 +20,7 @@ pipeline {
             steps {
                 withCredentials([string(credentialsId: 'docker-hub', variable: 'hubpwd')]) {
                       sh "docker login -u bangodi -p ${hubpwd}"
-                      sh "docker push bangodi/hiring:0.0.3"
+                      sh "docker push bangodi/hiring:0.0.2"
                  }
             }
         }
