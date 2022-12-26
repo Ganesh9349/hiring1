@@ -28,7 +28,7 @@ pipeline {
            
             steps {
                   sshagent(['docker-host']) {
-                      sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.28.205 docker run -d -p 8081:8080 --name dockertest2 bangodi/ganesh:0.0.4"
+                      sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.28.205 docker run -d -p 8082:8080 --name dockertest3 bangodi/ganesh:0.0.4"
                 }
                 
               }
