@@ -10,7 +10,7 @@ pipeline{
         }
         stage('docker build'){
             steps{
-                sh "docker build . -t bangodi/hiring:${commit_id()}"
+                sh "docker build  . -t bangodi/hiring:${commit_id()} "
             }
         }
         stage('docker push'){
@@ -33,6 +33,6 @@ pipeline{
 }
 
 def commit_id(){
-     sh returnStdout: true, script: 'git rev-parse HEAD'
+    id = sh returnStdout: true, script: 'git rev-parse HEAD'
     return id
 }
